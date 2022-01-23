@@ -1,0 +1,125 @@
+/////we have made the objects without using ES^ classes we can also use ES6 classes for the same thing...
+var objArr=[];
+console.log("this is college website");
+function Book(name,author,type) {
+    this.name=name;
+    this.author=author;
+    this.type=type;
+}
+///Display the constructor...
+
+function Display() {
+    
+
+}
+Display.prototype.add=function(book)
+{
+    console.log("Adding to Ui");
+    tableBody=document.getElementById('tableBody');
+    let uistring=` <tr>
+    <td scope="col">${book.name}</td>
+    <td scope="col">${book.author}</td>
+    <td scope="col">${book.type}</td>
+    </tr>`;
+    tableBody.innerHTML+=uistring;
+
+}
+
+Display.prototype.clear=function()
+{
+    let libraryForm=document.getElementById("libraryForm");
+    libraryForm.reset();
+}
+Display.prototype.validate=function(book)
+{
+    if(book.author.name<2 || book.author.length<2)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+Display.prototype.show=function(value,input)
+{
+    let message=document.getElementById('message');
+    message.innerHTML=`<div class="alert alert-${value} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong>${input}
+    
+  </div>`;
+  setTimeout(() =>
+  {
+      message.innerHTML='';
+  },2000);
+
+}
+
+Display.prototype.storage=function(body)
+{
+    objArr.push(body);
+    console.log(objArr);
+    // let document=JSON.parse(objArr);
+    // string=JSON.stringify(document);
+    // localStorage.setItem("key",string);
+
+}
+
+//Add Methods to display the prototype...
+
+
+
+
+
+//Add Submit Event Listener to Form...
+let libraryForm=document.getElementById("libraryForm");
+libraryForm.addEventListener("submit",libraryFormSubmit);
+//Whenever a form is submitted by default page is reloaded and so the text comes and goes in the console....so we used preventDefault function.
+function libraryFormSubmit(e) 
+{
+    
+    console.log("Library Form Submitted");
+   let name=document.getElementById('bookname').value;
+   let author=document.getElementById('author').value;
+   let type;
+//    fiction,programming,cooking...
+    let fiction=document.getElementById('fiction');
+    let programming=document.getElementById('programming');
+    let cooking=document.getElementById('cooking');
+    
+    if(fiction.checked)
+    {
+        type=fiction.value;
+    }
+    else if(programming.checked)
+    {
+        type=programming.value;
+    }
+    else if(cooking.checked)
+    {
+        type=cooking.value;
+    }
+
+
+    let book=new Book(name,author,type);
+    console.log(book);
+    let display=new Display();
+    if(display.validate(book))
+    {
+        display.add(book);
+        display.clear();
+        display.show('success','your book added');
+        display.storage(book);
+    }
+    else
+    {
+        display.show('error','not possible');
+    }
+
+    
+    e.preventDefault();
+}
+////To do store all the data in local storage...
+////Delete the book.....so
+////Add a scroll back to the view.
